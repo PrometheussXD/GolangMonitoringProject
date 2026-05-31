@@ -1,15 +1,14 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"Project/internal/api"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
-
-	r.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"status": "ok",
-		})
-	})
-
+	api.SetupRoutes(r)
 	r.Run(":8080")
+	
 }
