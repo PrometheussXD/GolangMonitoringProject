@@ -1,7 +1,7 @@
 package models
 
 type Target struct {
-	Id       int    `json:"id"`
+	ID       uint   `gorm:"primaryKey" json:"id"`
 	Name     string `json:"name"`
 	URL      string `json:"url"`
 	Interval int    `json:"interval"`

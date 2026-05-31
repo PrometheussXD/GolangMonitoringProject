@@ -9,18 +9,37 @@ import (
 )
 
 func CreateTarget(c *gin.Context) {
+
 	var input models.Target
 
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
-	target := repository.CreateTarget(input)
+	err := repository.CreateTarget(input)
 
-	c.JSON(http.StatusOK, target)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, input)
 }
-
 func GetTargets(c *gin.Context) {
-	c.JSON(http.StatusOK, repository.GetTargets())
+
+	targets, err := repository.GetTargets()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, targets)
 }

@@ -1,18 +1,19 @@
 package repository
 
-import "Project/internal/models"
+import (
+	"Project/internal/dataBase"
+	"Project/internal/models"
+)
 
-var targets []models.Target
-var nextID = 1
-
-func CreateTarget(t models.Target) models.Target {
-	t.Id = nextID
-	nextID++
-
-	targets = append(targets, t)
-	return t
+func CreateTarget(target models.Target) error {
+	return db.DB.Create(&target).Error
 }
 
-func GetTargets() []models.Target {
-	return targets
+func GetTargets() ([]models.Target, error) {
+
+	var targets []models.Target
+
+	err := db.DB.Find(&targets).Error
+
+	return targets, err
 }
