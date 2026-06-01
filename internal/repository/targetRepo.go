@@ -34,3 +34,19 @@ func UpdateTarget(id uint, target models.Target) error {
 
 	return db.DB.Save(&target).Error
 }
+func GetTargetWithResults(id uint) (models.Target, error) {
+	var target models.Target
+	err := db.DB.
+		Preload("Results").
+		First(&target, id).
+		Error
+	return target, err
+}
+func GetAllTargets() ([]models.Target, error) {
+
+	var targets []models.Target
+
+	err := db.DB.Find(&targets).Error
+
+	return targets, err
+}
