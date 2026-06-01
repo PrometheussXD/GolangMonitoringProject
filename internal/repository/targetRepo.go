@@ -17,3 +17,6 @@ func GetTargets() ([]models.Target, error) {
 
 	return targets, err
 }
+func DeleteTarget(id uint) error {
+	return db.DB.Delete(&models.Target{}, id).Error
+}

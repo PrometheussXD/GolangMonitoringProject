@@ -2,6 +2,7 @@ package api
 
 import (
 	"Project/internal/handlers"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,4 +12,5 @@ func SetupRoutes(r *gin.Engine) {
 	})
 	r.POST("/targets", handlers.CreateTarget)
 	r.GET("/targets", handlers.GetTargets)
+	r.DELETE("/targets/:id", handlers.DeleteTarget)
 }
