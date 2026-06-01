@@ -20,3 +20,17 @@ func GetTargets() ([]models.Target, error) {
 func DeleteTarget(id uint) error {
 	return db.DB.Delete(&models.Target{}, id).Error
 }
+func GetTargetByID(id uint) (models.Target, error) {
+
+	var target models.Target
+
+	err := db.DB.First(&target, id).Error
+
+	return target, err
+}
+func UpdateTarget(id uint, target models.Target) error {
+
+	target.ID = id
+
+	return db.DB.Save(&target).Error
+}

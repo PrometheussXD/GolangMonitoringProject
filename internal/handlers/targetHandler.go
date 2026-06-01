@@ -70,3 +70,62 @@ func DeleteTarget(c *gin.Context) {
 		"message": "target deleted",
 	})
 }
+func GetTargetByID(c *gin.Context) {
+
+	idParam := c.Param("id")
+
+	id, err := strconv.ParseUint(idParam, 10, 32)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid id",
+		})
+		return
+	}
+
+	target, err := repository.GetTargetByID(uint(id))
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "target not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, target)
+}
+func UpdateTarget(c *gin.Context) {
+
+	idParam := c.Param("id")
+
+	id, err := strconv.ParseUint(idParam, 10, 32)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid id",
+		})
+		return
+	}
+
+	var input models.Target
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = repository.UpdateTarget(uint(id), input)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "target updated",
+	})
+}
