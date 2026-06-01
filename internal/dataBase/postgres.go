@@ -21,7 +21,10 @@ func Connect() {
 		log.Fatal(err)
 	}
 
-	err = database.AutoMigrate(&models.Target{})
+	err = database.AutoMigrate(
+		&models.Target{},
+		&models.CheckResult{},
+	)
 
 	if err != nil {
 		log.Fatal(err)
