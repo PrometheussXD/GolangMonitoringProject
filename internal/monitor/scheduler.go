@@ -43,7 +43,7 @@ func StartScheduler() {
 			fmt.Println(boxStyle.Render(content))
 		}
 		for _, target := range targets {
-			go RunCheck(target)
+			go StartTargetWorker(target)
 		}
 	}
 }
