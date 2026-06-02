@@ -15,5 +15,5 @@ type DashboardTarget struct {
 
 	LastCheck time.Time
 
-	Uptime float64
+	Uptime int
 }
