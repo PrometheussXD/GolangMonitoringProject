@@ -90,7 +90,11 @@
                 {{ range .Targets }}
                 <tr>
                     <td class="ps-4 text-muted fw-mono">#{{ .ID }}</td>
-                    <td class="fw-semibold">{{ .Name }}</td>
+                    <td>
+                        <a href="/targets/{{ .ID }}/details">
+                            {{ .Name }}
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ .URL }}" target="_blank" class="text-decoration-none text-truncate d-inline-block" style="max-width: 300px;">
                             {{ .URL }}
