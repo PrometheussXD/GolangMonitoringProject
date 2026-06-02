@@ -8,285 +8,325 @@
 
     <title>Go Monitor Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-        }
 
-        /* Modern Custom Card Glassmorphism touch */
-        .stat-card {
-            border: none;
-            border-radius: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
-        }
-
-        /* Pulse Animation Enhancement */
         .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #10b981;
+            width: 12px;
+            height: 12px;
+            background-color: #198754;
             border-radius: 50%;
             display: inline-block;
-            position: relative;
-        }
-
-        .pulse-dot::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background-color: #10b981;
-            border-radius: 50%;
-            position: absolute;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.7; }
-            70% { transform: scale(2.5); opacity: 0; }
-            100% { transform: scale(0.95); opacity: 0; }
+
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(25,135,84,.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(25,135,84,0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(25,135,84,0);
+            }
         }
 
-        /* Table Styling */
-        .custom-table-card {
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table th {
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            color: #64748b;
-            padding: 16px 24px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .table td {
-            padding: 16px 24px;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 0.9rem;
-        }
-
-        .table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Smooth Badges */
-        .badge-custom {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 0.8rem;
-        }
-
-        /* Link colors */
-        .target-link {
-            color: #3b82f6;
-            font-weight: 500;
-            transition: color 0.15s ease;
-        }
-        .target-link:hover {
-            color: #1d4ed8;
-            text-decoration: underline !important;
-        }
     </style>
+
 </head>
 
-<body>
+<body class="bg-light">
 
-<div class="container my-5" style="max-width: 1200px;">
+<div class="container my-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-        <h1 class="h3 m-0 d-flex align-items-center gap-3 fw-bold text-dark">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h1 class="h2 m-0 d-flex align-items-center gap-2">
+
             <span class="pulse-dot"></span>
+
             Go Monitor Dashboard
+
         </h1>
-        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill d-flex align-items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-            </svg>
+
+        <span class="badge bg-secondary px-3 py-2">
+
             Auto Refresh 30s
+
         </span>
+
     </div>
 
-    <form method="GET" action="/dashboard" class="mb-4">
-        <div class="input-group shadow-sm rounded-3 overflow-hidden">
-            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-            </span>
-            <input type="text" name="search" class="form-control border-start-0 ps-2 py-2-5" placeholder="Search target by name or URL..." style="box-shadow: none;">
-            <button class="btn btn-primary px-4 fw-medium" type="submit">Search</button>
+    <form
+            method="GET"
+            action="/dashboard"
+            class="mb-4">
+
+        <div class="input-group">
+
+            <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search target by name">
+
+            <button
+                    class="btn btn-primary"
+                    type="submit">
+
+                Search
+
+            </button>
+
         </div>
+
     </form>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-3 mb-4">
+
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center justify-content-between p-4">
-                    <div>
-                        <h6 class="text-uppercase fw-bold text-muted small mb-1" style="letter-spacing: 0.05em;">Total Targets</h6>
-                        <h2 class="display-6 fw-bold mb-0 text-dark">{{ .Count }}</h2>
-                    </div>
-                    <div class="p-3 bg-light rounded-3 text-secondary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-layers" viewBox="0 0 16 16">
-                            <path d="M8.235 1.559a.5.5 0 0 0-.47 0L1.75 4.75a.5.5 0 0 0 0 .882L7.766 8.88a.5.5 0 0 0 .47 0l6.017-3.25a.5.5 0 0 0 0-.883z"/>
-                            <path d="m1.75 7.918 5.766 3.122a.5.5 0 0 0 .47 0l5.766-3.122a.5.5 0 0 1 .47 0l5.766 3.122a.5.5 0 0 1-.47.882L8.235 15.14a.5.5 0 0 1-.47 0L1.75 12.018a.5.5 0 0 1 0-.883l5.766-3.122a.5.5 0 0 0-.47 0L1.75 7.918z"/>
-                        </svg>
-                    </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Targets
+                    </h6>
+
+                    <h2>
+                        {{ .Count }}
+                    </h2>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm h-100" style="border-left: 4px solid #10b981;">
-                <div class="card-body d-flex align-items-center justify-content-between p-4">
-                    <div>
-                        <h6 class="text-uppercase fw-bold text-success small mb-1" style="letter-spacing: 0.05em;">UP Status</h6>
-                        <h2 class="display-6 fw-bold mb-0 text-success">{{ .UpCount }}</h2>
-                    </div>
-                    <div class="p-3 bg-success-subtle rounded-3 text-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-                        </svg>
-                    </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-success">
+                        UP
+                    </h6>
+
+                    <h2 class="text-success">
+                        {{ .UpCount }}
+                    </h2>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm h-100" style="border-left: 4px solid #ef4444;">
-                <div class="card-body d-flex align-items-center justify-content-between p-4">
-                    <div>
-                        <h6 class="text-uppercase fw-bold text-danger small mb-1" style="letter-spacing: 0.05em;">DOWN Status</h6>
-                        <h2 class="display-6 fw-bold mb-0 text-danger">{{ .DownCount }}</h2>
-                    </div>
-                    <div class="p-3 bg-danger-subtle rounded-3 text-danger">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-                        </svg>
-                    </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-danger">
+                        DOWN
+                    </h6>
+
+                    <h2 class="text-danger">
+                        {{ .DownCount }}
+                    </h2>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
-    <div class="card custom-table-card shadow-sm">
-        <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
-            <h5 class="mb-0 fw-bold text-dark text-opacity-75">Monitored Targets</h5>
-            <span class="badge bg-light text-dark border rounded-pill px-2.5 py-1 small fw-medium">Live Feed</span>
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Monitored Targets
+
+            </h5>
+
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
+
+            <table class="table table-hover align-middle mb-0">
+
                 <thead class="table-light">
+
                 <tr>
+
                     <th>ID</th>
                     <th>Name</th>
                     <th>URL</th>
                     <th>Status</th>
                     <th>Response Time</th>
                     <th>Last Check</th>
-                    <th class="text-end">Uptime</th>
+                    <th>Uptime</th>
                 </tr>
+
                 </thead>
+
                 <tbody>
+
                 {{ range .Targets }}
+
                 <tr>
-                    <td class="text-muted fw-medium">#{{ .ID }}</td>
+
                     <td>
-                        <a href="/targets/{{ .ID }}/details" class="text-decoration-none target-link">
+                        {{ .ID }}
+                    </td>
+
+                    <td>
+
+                        <a
+                                href="/targets/{{ .ID }}/details"
+                                class="text-decoration-none">
+
                             {{ .Name }}
+
                         </a>
+
                     </td>
+
                     <td>
-                        <a href="{{ .URL }}" target="_blank" class="text-decoration-none text-muted small">
-                            {{ .URL }} ↗
+
+                        <a
+                                href="{{ .URL }}"
+                                target="_blank"
+                                class="text-decoration-none">
+
+                            {{ .URL }}
+
                         </a>
+
                     </td>
+
                     <td>
+
                         {{ if .IsUp }}
-                        <span class="badge badge-custom bg-success-subtle text-success">
-                            ● UP
+
+                        <span class="badge bg-success">
+
+                            UP
+
                         </span>
+
                         {{ else }}
-                        <span class="badge badge-custom bg-danger-subtle text-danger">
-                            ● DOWN
+
+                        <span class="badge bg-danger">
+
+                            DOWN
+
                         </span>
+
                         {{ end }}
+
+                    </td>
+
+                    <td>
+
+                        {{ if lt .ResponseTime 200 }}
+
+                        <span class="badge bg-success">
+
+                            {{ .ResponseTime }} ms
+
+                        </span>
+
+                        {{ else if lt .ResponseTime 500 }}
+
+                        <span class="badge bg-warning text-dark">
+
+                            {{ .ResponseTime }} ms
+
+                        </span>
+
+                        {{ else }}
+
+                        <span class="badge bg-danger">
+
+                            {{ .ResponseTime }} ms
+
+                        </span>
+
+                        {{ end }}
+
+                    </td>
+
+                    <td>
+                        {{ .FormattedLastCheck }}
                     </td>
                     <td>
-                        {{ if lt .ResponseTime 200 }}
-                        <span class="badge badge-custom bg-success-subtle text-success">
-                            {{ .ResponseTime }} ms
-                        </span>
-                        {{ else if lt .ResponseTime 500 }}
-                        <span class="badge badge-custom bg-warning-subtle text-warning-emphasis">
-                            {{ .ResponseTime }} ms
-                        </span>
-                        {{ else }}
-                        <span class="badge badge-custom bg-danger-subtle text-danger">
-                            {{ .ResponseTime }} ms
-                        </span>
-                        {{ end }}
-                    </td>
-                    <td class="text-muted small">
-                        {{ .LastCheck }}
-                    </td>
-                    <td class="text-end fw-bold {{ if lt .Uptime 95.0 }}text-danger{{ else }}text-dark{{ end }}">
-                        {{ .Uptime }}%
+                        {{ .Uptime }} %
                     </td>
                 </tr>
+
                 {{ else }}
+
                 <tr>
-                    <td colspan="7" class="text-center py-5 text-muted">
-                        <div class="py-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-inbox text-muted text-opacity-50 mb-3" viewBox="0 0 16 16">
-                                <path d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 0 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4zm9.917 5H10.5a2.5 2.5 0 0 1-5 0H1.103l1.49 4.143A1 1 0 0 0 3.54 14h8.92a1 1 0 0 0 .95-.686zM0 8a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z"/>
-                            </svg>
-                            <p class="mb-0">No targets found matching criteria</p>
-                        </div>
+
+                    <td
+                            colspan="6"
+                            class="text-center py-5">
+
+                        No targets found
+
                     </td>
+
                 </tr>
+
                 {{ end }}
+
                 </tbody>
+
             </table>
+
+        </div>
+        <div class="mt-3">
+
+            <a
+                    href="/dashboard?page=1"
+                    class="btn btn-primary">
+
+                Page 1
+
+            </a>
+
+            <a
+                    href="/dashboard?page=2"
+                    class="btn btn-primary">
+
+                Page 2
+
+            </a>
+
         </div>
 
-        <div class="card-footer bg-white border-top-0 py-3 px-4 d-flex justify-content-end">
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-sm m-0 gap-1">
-                    <li class="page-item">
-                        <a href="/dashboard?page=1" class="page-link rounded-2 border-0 px-3 py-2 bg-light text-dark fw-medium">Page 1</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="/dashboard?page=2" class="page-link rounded-2 border-0 px-3 py-2 bg-primary text-white fw-medium">Page 2</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
     </div>
+
 </div>
 
 </body>
+
 </html>
