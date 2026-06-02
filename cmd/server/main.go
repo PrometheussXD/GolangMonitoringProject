@@ -12,6 +12,7 @@ func main() {
 	db.Connect()
 	go monitor.StartScheduler()
 	r := gin.Default()
+	r.LoadHTMLGlob("template/*")
 	api.SetupRoutes(r)
 	r.Run(":8080")
 }
