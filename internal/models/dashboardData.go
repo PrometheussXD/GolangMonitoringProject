@@ -8,4 +8,6 @@ type DashboardData struct {
 	UpCount int
 
 	DownCount int
+
+	Uptime float64
 }

@@ -5,32 +5,58 @@ import (
 	"Project/internal/repository"
 	"net/http"
 	"sort"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Dashboard(c *gin.Context) {
 
+	search := c.Query("search")
+
 	targets, err := repository.GetAllTargets()
+
+	if err != nil {
+
+		c.JSON(
+			http.StatusInternalServerError,
+			gin.H{"error": err.Error()},
+		)
+
+		return
+	}
+
 	var dashboardTargets []models.DashboardTarget
+
 	for _, target := range targets {
+
+		if search != "" {
+
+			if !strings.Contains(
+				strings.ToLower(target.Name),
+				strings.ToLower(search),
+			) {
+				continue
+			}
+		}
 
 		lastResult, _ :=
 			repository.GetLatestResult(target.ID)
 
-		dashboardTargets =
-			append(
-				dashboardTargets,
-				models.DashboardTarget{
-					ID:           target.ID,
-					Name:         target.Name,
-					URL:          target.URL,
-					IsUp:         lastResult.IsUp,
-					ResponseTime: lastResult.ResponseTime,
-					LastCheck:    lastResult.CheckedAt,
-				},
-			)
+		dashboardTargets = append(
+			dashboardTargets,
+			models.DashboardTarget{
+				ID:           target.ID,
+				Name:         target.Name,
+				URL:          target.URL,
+				IsUp:         lastResult.IsUp,
+				ResponseTime: lastResult.ResponseTime,
+				LastCheck:    lastResult.CheckedAt,
+			},
+		)
 	}
+
 	sort.Slice(
 		dashboardTargets,
 		func(i, j int) bool {
@@ -45,15 +71,7 @@ func Dashboard(c *gin.Context) {
 			return !dashboardTargets[i].IsUp
 		},
 	)
-	if err != nil {
 
-		c.JSON(
-			http.StatusInternalServerError,
-			gin.H{"error": err.Error()},
-		)
-
-		return
-	}
 	upCount := 0
 	downCount := 0
 
@@ -65,15 +83,45 @@ func Dashboard(c *gin.Context) {
 			downCount++
 		}
 	}
+
+	page := 1
+
+	pageStr :=
+		c.DefaultQuery(
+			"page",
+			"1",
+		)
+
+	page, _ =
+		strconv.Atoi(pageStr)
+
+	const pageSize = 10
+
+	start :=
+		(page - 1) * pageSize
+
+	end :=
+		start + pageSize
+
+	if start > len(dashboardTargets) {
+
+		start = len(dashboardTargets)
+	}
+
+	if end > len(dashboardTargets) {
+
+		end = len(dashboardTargets)
+	}
+
+	dashboardTargets =
+		dashboardTargets[start:end]
 	data := models.DashboardData{
-		Targets: dashboardTargets,
-
-		Count: len(dashboardTargets),
-
-		UpCount: upCount,
-
+		Targets:   dashboardTargets,
+		Count:     len(dashboardTargets),
+		UpCount:   upCount,
 		DownCount: downCount,
 	}
+
 	c.HTML(
 		http.StatusOK,
 		"dashboard.html",

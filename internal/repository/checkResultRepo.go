@@ -43,3 +43,39 @@ func GetResultsByTargetID(
 
 	return results, err
 }
+func GetUptimePercentage(
+	targetID uint,
+) float64 {
+
+	var total int64
+
+	db.DB.
+		Model(
+			&models.CheckResult{},
+		).
+		Where(
+			"target_id = ?",
+			targetID,
+		).
+		Count(&total)
+
+	if total == 0 {
+
+		return 0
+	}
+
+	var up int64
+
+	db.DB.
+		Model(
+			&models.CheckResult{},
+		).
+		Where(
+			"target_id = ? AND is_up = true",
+			targetID,
+		).
+		Count(&up)
+
+	return float64(up) /
+		float64(total) * 100
+}

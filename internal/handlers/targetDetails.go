@@ -50,4 +50,5 @@ func TargetDetails(c *gin.Context) {
 			"Results": results,
 		},
 	)
+
 }
