@@ -8,11 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TargetDetails(c *gin.Context) {
+func DeleteTarget(c *gin.Context) {
 
-	id, err := strconv.Atoi(
-		c.Param("id"),
-	)
+	id, err :=
+		strconv.Atoi(
+			c.Param("id"),
+		)
 
 	if err != nil {
 
@@ -26,8 +27,8 @@ func TargetDetails(c *gin.Context) {
 		return
 	}
 
-	results, err :=
-		repository.GetResultsByTargetID(
+	err =
+		repository.DeleteTarget(
 			uint(id),
 		)
 
@@ -43,11 +44,8 @@ func TargetDetails(c *gin.Context) {
 		return
 	}
 
-	c.HTML(
-		http.StatusOK,
-		"targetDetails.html",
-		gin.H{
-			"Results": results,
-		},
+	c.Redirect(
+		http.StatusFound,
+		"/dashboard",
 	)
 }

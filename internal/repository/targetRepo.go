@@ -17,9 +17,6 @@ func GetTargets() ([]models.Target, error) {
 
 	return targets, err
 }
-func DeleteTarget(id uint) error {
-	return db.DB.Delete(&models.Target{}, id).Error
-}
 func GetTargetByID(id uint) (models.Target, error) {
 
 	var target models.Target
@@ -49,4 +46,12 @@ func GetAllTargets() ([]models.Target, error) {
 	err := db.DB.Find(&targets).Error
 
 	return targets, err
+}
+func DeleteTarget(id uint) error {
+
+	return db.DB.
+		Delete(
+			&models.Target{},
+			id,
+		).Error
 }

@@ -16,5 +16,9 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/targets/:id", handlers.GetTargetByID)
 	r.PUT("/targets/:id", handlers.UpdateTarget)
 	r.GET("/dashboard", handlers.Dashboard)
-
+	r.POST("/targets/:id/delete", handlers.DeleteTarget)
+	r.GET(
+		"/targets/:id/details",
+		handlers.TargetDetails,
+	)
 }
